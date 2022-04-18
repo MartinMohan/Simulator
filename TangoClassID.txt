@@ -1,0 +1,11 @@
+/**
+ * Device Class Identification:
+ * 
+ * Class Name   :	Simulator
+ * Contact      :	martinmohan99@gmail.com
+ * Class Family :	Acquisition
+ * Platform     :	Unix Like
+ * Bus          :	Not Applicable
+ * Manufacturer :	none
+ * Reference    :	
+ */

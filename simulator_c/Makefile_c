@@ -1,0 +1,46 @@
+# author: mmohan@ego-gw.it 
+# Date: 30/11/2011
+# Make application simulatorTest which generates test signals
+#
+# cc (tine , epic)
+#
+export LD_RUN_PATH=.
+MYHOME=.
+
+# Tine + Epics
+CC=cc
+
+all: simulatorTest simulatorTest_static
+	rm *.o
+
+# Create dynamic executable
+simulatorTest: libsimulator.o
+	${CC} simulatorTest.o -o simulatorTest -g -Wl,-rpath,$(MYHOME) -I$(MYHOME) -L$(MYHOME) -lsimulator
+
+# Create static executable - recompile App as static
+simulatorTest_static: libsimulator.a
+	${CC} -static simulatorTest.c -L. -lsimulator -o simulatorTest_static
+
+# Create dynamic library
+libsimulator.o: simulator.o simulatorTest.o
+	${CC} -shared -g -Wl,-soname,libsimulator.so.1 -o libsimulator.so.1.0 simulator.o
+	ln -sf libsimulator.so.1.0 libsimulator.so.1
+	ln -sf libsimulator.so.1 libsimulator.so
+
+# Create static library - "need static c prog so need to recompile"
+libsimulator.a:
+	${CC} -g -c -Wall -Wextra simulator.c -o simulator.o
+	ar rcs libsimulator.a simulator.o
+# To be fixed. Add this path to epics location?
+	cp libsimulator.a /home/mohan/EpicsDev/lib/linux-x86
+
+# Compile
+simulator.o: simulator.c
+	${CC} -fPIC -g -c -Wall -Wextra simulator.c
+
+# Compile
+simulatorTest.o: simulatorTest.c
+	${CC} -fPIC -g -c -Wall -Wextra -c simulatorTest.c
+
+clean:
+		rm -f simulatorTest simulatorTest_* libsimulator*.*
