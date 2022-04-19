@@ -1,10 +1,10 @@
 #!/usr/bin/python
+# This prints the current value for Simulator signals
 import PyTango,datetime
-import sys
-sys.tracebacklimit = 0
     
 def read_device(device_name):
     Amplitude=-1
+    time_now = datetime.datetime.now().strftime("%H:%M:%S")
     try:
         device_handle = PyTango.DeviceProxy(device_name)
     except:
@@ -13,12 +13,10 @@ def read_device(device_name):
 
     try:
         Amplitude=device_handle.read_attribute("Amplitude").value
+        print ("%s: device_name: %s: Amplitude %s"%(time_now,device_name,Amplitude))
     except Exception as exception:
-        print ("Fail: device_name: %s raised error %s"%(device_name,exception.__class__.__name__))
-#        pass
-
-    time_now = datetime.datetime.now().strftime("%H:%M:%S")
-    print ("%s: device_name: %s: Amplitude %s"%(time_now,device_name,Amplitude))
+        device_name = '\033[91m'+device_name+" "+ exception.__class__.__name__ +": " + '\033[0m'
+        print ("%s: device_name: %s Amplitude: %s"%(time_now,device_name,Amplitude))
 
 
 read_device("test/Simulator/rampx1")
