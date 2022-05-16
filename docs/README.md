@@ -1,4 +1,4 @@
-<img src="./tango_logo.png">
+<img src="./docs/tango_logo.png">
 # Tango Simulator server  
 For description see ./docs/wepks030.pdf
 
@@ -23,8 +23,8 @@ usage :  Simulator instance_name [-v[trace level]] [-file=<file_name> | -nodb [-
 >sudo apt-get install openjdk-8-jdk  
 >sudo update-alternatives --config java   
 
-![Alt text](./register.png?raw=true "register")
+<img src="./docs/register.png">
 
 ## Access tango server using tango clients
-![Alt text](./clients.png?raw=true "Clients")
 
+<img src="./docs/clients.png">
